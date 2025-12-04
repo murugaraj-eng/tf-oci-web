@@ -10,7 +10,3 @@ resource "oci_core_route_table" "my_rt" {
   }
 }
 
-resource "oci_core_subnet_route_table_attachment" "attach_rt" {
-  subnet_id      = oci_core_subnet.my_subnet.id
-  route_table_id = oci_core_route_table.my_rt.id
-}

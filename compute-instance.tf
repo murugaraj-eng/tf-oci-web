@@ -1,3 +1,4 @@
+
 resource "oci_core_instance" "web_instance" {
   availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
   compartment_id      = var.compartment_ocid
@@ -5,17 +6,17 @@ resource "oci_core_instance" "web_instance" {
 
   source_details {
     source_type = "image"
-    image_id    = data.oci_core_images.oracle_linux.id
+    source_id   = data.oci_core_images.oracle_linux.images[0].id
+     
   }
 
   create_vnic_details {
-    subnet_id        = oci_core_subnet.my_subnet.id
+    subnet_id = oci_core_subnet.my_subnet.id
     assign_public_ip = true
-    display_name     = "webserver-vnic"
   }
 
-  metadata = {
-    ssh_authorized_keys = var.ssh_public_key
+ metadata = {
+    ssh_authorized_keys = file("C:\\Users\\ma\\.ssh\\oci_key.pub")
     user_data = base64encode(<<-EOT
       #!/bin/bash
       yum install -y httpd
